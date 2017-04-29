@@ -1,0 +1,3 @@
+/home/spycheese/Documents/itmo/cpp/bigint/CMakeFiles/rebuild_cache.dir
+/home/spycheese/Documents/itmo/cpp/bigint/CMakeFiles/edit_cache.dir
+/home/spycheese/Documents/itmo/cpp/bigint/CMakeFiles/big_integer_testing.dir
