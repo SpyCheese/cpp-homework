@@ -50,4 +50,4 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -fsanitize=address,undefined")
 endif()
 
-target_link_libraries(myzip_testing -lgmp -lgmpxx -lpthread)
+target_link_libraries(myzip_testing -lpthread)
