@@ -9,7 +9,6 @@ class big_integer
 public:
 	big_integer();
 	big_integer(big_integer const & b);
-	big_integer(big_integer && b);
 	explicit big_integer(std::string const & s);
 	big_integer(int b);
 	big_integer(uint32_t b);
@@ -18,7 +17,6 @@ public:
 
 	void swap(big_integer & b);
 	big_integer & operator = (big_integer const & b);
-	big_integer & operator = (big_integer && b);
 
 	big_integer & operator += (big_integer const & b);
 	big_integer & operator -= (big_integer const & b);
@@ -40,16 +38,16 @@ public:
 	big_integer operator ++ (int);
 	big_integer operator -- (int);
 
-	friend big_integer operator + (big_integer a, big_integer const & b);
-	friend big_integer operator - (big_integer a, big_integer const & b);
+	friend big_integer operator + (big_integer const & a, big_integer const & b);
+	friend big_integer operator - (big_integer const & a, big_integer const & b);
 	friend big_integer operator * (big_integer const & a, big_integer const & b);
-	friend big_integer operator / (big_integer a, big_integer const & b);
-	friend big_integer operator % (big_integer a, big_integer const & b);
-	friend big_integer operator & (big_integer a, big_integer const & b);
-	friend big_integer operator | (big_integer a, big_integer const & b);
-	friend big_integer operator ^ (big_integer a, big_integer const & b);
-	friend big_integer operator << (big_integer a, int b);
-	friend big_integer operator >> (big_integer a, int b);
+	friend big_integer operator / (big_integer const & a, big_integer const & b);
+	friend big_integer operator % (big_integer const & a, big_integer const & b);
+	friend big_integer operator & (big_integer const & a, big_integer const & b);
+	friend big_integer operator | (big_integer const & a, big_integer const & b);
+	friend big_integer operator ^ (big_integer const & a, big_integer const & b);
+	friend big_integer operator << (big_integer const & a, int b);
+	friend big_integer operator >> (big_integer const & a, int b);
 
 	friend bool operator == (big_integer const & a, big_integer const & b);
 	friend bool operator != (big_integer const & a, big_integer const & b);
@@ -62,16 +60,20 @@ public:
 
 private:
 	size_t size;
-	uint32_t * data;
-	bool neg;
+    static size_t const SMALL_SIZE = 2;
+    union
+    {
+        uint32_t * ptr;
+        uint32_t arr[SMALL_SIZE];
+    } dataUnion;
+    uint32_t * getData();
+    uint32_t const * getData() const;
 
 	void resize(size_t nsize);
+    void duplicate();
 	void shrink();
 
-	void shiftL(size_t b);
-	void divModImpl(big_integer const & b, big_integer & r);
-	void subShifted(big_integer const & b, size_t shift);
-	bool lessShifted(big_integer const & b, size_t shift);
+    static std::pair < big_integer, big_integer > divModImpl(big_integer const & ina, big_integer const & b);
 };
 
 big_integer operator + (big_integer const & a, big_integer const & b);
