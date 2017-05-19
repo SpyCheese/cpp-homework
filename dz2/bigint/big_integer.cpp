@@ -533,7 +533,7 @@ void big_integer::resize(size_t nsize)
 
 void big_integer::shrink()
 {
-	uint64_t as = data[size - 1] >> 31 ? UINT32_MAX : 0;
+	uint32_t as = data[size - 1] >> 31 ? UINT32_MAX : 0;
 	for (size_t i = size - 1; true; --i)
 		if (data[i] != as || i == 0)
 		{
