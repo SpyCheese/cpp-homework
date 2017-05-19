@@ -63,7 +63,6 @@ public:
 private:
 	size_t size;
 	uint32_t * data;
-	bool neg;
 
 	void resize(size_t nsize);
 	void shrink();
