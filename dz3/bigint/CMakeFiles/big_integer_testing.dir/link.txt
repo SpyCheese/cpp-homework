@@ -1,1 +1,0 @@
-/usr/bin/c++    -O2 -Wall -std=c++11 -pedantic   CMakeFiles/big_integer_testing.dir/big_integer_testing.cpp.o CMakeFiles/big_integer_testing.dir/big_integer.cpp.o CMakeFiles/big_integer_testing.dir/gtest/gtest-all.cc.o CMakeFiles/big_integer_testing.dir/gtest/gtest_main.cc.o  -o big_integer_testing -rdynamic -lgmp -lgmpxx -lpthread 
