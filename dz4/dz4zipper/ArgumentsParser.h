@@ -13,4 +13,10 @@ struct Arguments
 Arguments parseArguments(int argc, char * argv[]);
 void printHelp();
 
+struct IncorrectArgumentExcepiton : public std::exception
+{
+    std::string name;
+    IncorrectArgumentExcepiton(std::string const & name) : name(name) {}
+};
+
 #endif // __ARGUMENTS_PARSER_H__

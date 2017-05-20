@@ -5,6 +5,14 @@
 #include <Decoder.h>
 #include <Exceptions.h>
 
+struct InvalidFileException : public std::exception
+{
+    char const * what() const noexcept
+    {
+        return "Invalid source file";
+    }
+};
+
 static myzip::BitSequence readHuffmanTree(std::istream & inFile)
 {
 	uint16_t treeSize = 0;
@@ -13,10 +21,7 @@ static myzip::BitSequence readHuffmanTree(std::istream & inFile)
 	seq.resize(treeSize);
 	inFile.read((char*)seq.data(), (treeSize + 7) / 8);
 	if (inFile.fail())
-	{
-		std::cerr << "Invalid source file\n";
-		exit(3);
-	}
+        throw InvalidFileException();
 	return seq;
 }
 
@@ -48,45 +53,46 @@ static void writeDecompressedData(myzip::Decoder const & decoder, std::istream &
 	}
 	inFile.clear();
 	if (outSize > 0)
-	{
-		std::cerr << "Invalid source file\n";
-		exit(3);
-	}
+        throw InvalidFileException();
 }
 
-void mainUnzip(std::string const & inFilename, std::string const & outFilename)
+int mainUnzip(std::string const & inFilename, std::string const & outFilename)
 {
-	std::ifstream inFile(inFilename, std::ios_base::in | std::ios_base::binary);
-	if (inFile.fail())
-	{
-		std::cerr << "Failed to open source file " << inFilename << "\n";
-		exit(2);
-	}
-	std::ofstream outFile(outFilename, std::ios_base::out | std::ios_base::binary);
-	if (outFile.fail())
-	{
-		std::cerr << "Failed to open destination file " << outFilename << "\n";
-		exit(2);
-	}
+    try
+    {
+        std::ifstream inFile(inFilename, std::ios_base::in | std::ios_base::binary);
+        if (inFile.fail())
+        {
+            std::cerr << "Failed to open source file " << inFilename << "\n";
+            return 2;
+        }
+        std::ofstream outFile(outFilename, std::ios_base::out | std::ios_base::binary);
+        if (outFile.fail())
+        {
+            std::cerr << "Failed to open destination file " << outFilename << "\n";
+            return 2;
+        }
 
-	myzip::BitSequence tree = readHuffmanTree(inFile);
-	myzip::Decoder decoder;
-	try
-	{
-		decoder.decodeHuffmanTree(tree);
-	} catch (myzip::DecoderTreeException)
-	{
-		std::cerr << "Invalid source file\n";
-		exit(3);
-	}
+        myzip::BitSequence tree = readHuffmanTree(inFile);
+        myzip::Decoder decoder;
+        try
+        {
+            decoder.decodeHuffmanTree(tree);
+        } catch (myzip::DecoderTreeException)
+        {
+            throw InvalidFileException();
+        }
 
-	uint64_t outSize = 0;
-	inFile.read((char*)&outSize, 8);
-	if (inFile.fail())
-	{
-		std::cerr << "Invalid source file\n";
-		exit(3);
-	}
+        uint64_t outSize = 0;
+        inFile.read((char*)&outSize, 8);
+        if (inFile.fail())
+            throw InvalidFileException();
 
-	writeDecompressedData(decoder, inFile, outFile, outSize);
+        writeDecompressedData(decoder, inFile, outFile, outSize);
+    } catch (InvalidFileException ex)
+    {
+        std::cerr << ex.what() << "\n";
+        return 3;
+    }
+    return 0;
 }

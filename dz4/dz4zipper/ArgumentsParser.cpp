@@ -6,11 +6,7 @@ static void processFlag(std::string const & flag, Arguments & r)
 	if (flag == "--help" || flag == "-h")
 		r.flagHelp = true;
 	else
-	{
-		std::cerr << "Incorrect option '" << flag << "'.\n";
-		std::cerr << "Try --help for more information.\n";
-		exit(1);
-	}
+        throw IncorrectArgumentExcepiton(flag);
 }
 
 Arguments parseArguments(int argc, char * argv[])
@@ -27,11 +23,7 @@ Arguments parseArguments(int argc, char * argv[])
 		else
 		{
 			if (s.length() == 1)
-			{
-				std::cerr << "Incorrect argument '-'.\n";
-				std::cerr << "Try --help for more information.\n";
-				exit(1);
-			}
+                throw IncorrectArgumentExcepiton("-");
 			if (s[1] == '-')
 				processFlag(s, r);
 			else

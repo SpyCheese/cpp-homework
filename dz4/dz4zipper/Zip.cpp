@@ -37,19 +37,19 @@ static void writeCompressedData(myzip::Encoder const & encoder, std::istream & i
 	outFile.write((char*)seq.data(), (seq.size() + 7) / 8);
 }
 
-void mainZip(std::string const & inFilename, std::string const & outFilename)
+int mainZip(std::string const & inFilename, std::string const & outFilename)
 {
 	std::ifstream inFile(inFilename, std::ios_base::in | std::ios_base::binary);
 	if (inFile.fail())
 	{
 		std::cerr << "Failed to open source file " << inFilename << "\n";
-		exit(2);
+        return 2;
 	}
 	std::ofstream outFile(outFilename, std::ios_base::out | std::ios_base::binary);
 	if (outFile.fail())
 	{
 		std::cerr << "Failed to open destination file " << outFilename << "\n";
-		exit(2);
+        return 2;
 	}
 
 	auto distrib = getFrequencyDistribution(inFile);
@@ -63,4 +63,5 @@ void mainZip(std::string const & inFilename, std::string const & outFilename)
 	outFile.write((char*)tree.data(), (treeSize + 7) / 8);
 	outFile.write((char*)&inSize, 8);
 	writeCompressedData(encoder, inFile, outFile);
+    return 0;
 }
