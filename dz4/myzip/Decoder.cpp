@@ -36,6 +36,8 @@ namespace myzip
 		}
 		size_t i = 0;
 		tree = decodeTree(encodedTree, i);
+		if (i != encodedTree.size() || tree->l == nullptr)
+			throw DecoderTreeException();
 	}
 
 	buffer Decoder::decode(BitSequence const & seq, size_t start, size_t & end) const
