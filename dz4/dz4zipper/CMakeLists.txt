@@ -18,4 +18,4 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_GLIBCXX_USE_CXX11_ABI=0 -g -fsanitize=address,undefined")
 endif()
 
-target_link_libraries(dz4zipper -lmyzip)
+target_link_libraries(dz4zipper myzip)
