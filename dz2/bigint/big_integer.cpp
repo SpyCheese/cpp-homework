@@ -353,7 +353,7 @@ void big_integer::divModImpl(big_integer const & b, big_integer & r)
 		uint32_t p1 = (i + blen >= size ? 0 : data[i + blen]);
 		int ss = (p1 == 0 ? 32 : __builtin_clz(p1));
 		size_t i2 = i + blen - 2;
-		uint64_t q1 = ((uint64_t)p1 << (32 + ss)) | ((uint64_t)data[i + blen - 1] << ss);
+		uint64_t q1 = (ss == 32 ? 0 : ((uint64_t)p1 << (32 + ss))) | ((uint64_t)data[i + blen - 1] << ss);
 		if (i2 < size && ss != 0)
 			q1 |= data[i2] >> (32 - ss);
 		uint64_t q2 = ((uint64_t)b.data[blen - 1] << ss);
