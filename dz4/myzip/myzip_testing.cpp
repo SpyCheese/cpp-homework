@@ -237,7 +237,7 @@ TEST(correctness, encoder_exception)
 	try
 	{
 		encoder.encode({1, 2, 4});
-	} catch (myzip::EncoderIncorrectCharacterException)
+	} catch (myzip::EncoderIncorrectCharacterException const &)
 	{
 		ok = true;
 	}
@@ -246,7 +246,7 @@ TEST(correctness, encoder_exception)
 	{
 		encoder.encode({1, 2, 3});
 		encoder.encode({});
-	} catch (myzip::EncoderIncorrectCharacterException)
+	} catch (myzip::EncoderIncorrectCharacterException const &)
 	{
 		EXPECT_FALSE(true);
 	}
@@ -279,7 +279,7 @@ TEST(correctness, decoder_no_tree_exception)
 	{
 		size_t e;
 		decoder.decode(myzip::BitSequence(), 0, e);
-	} catch (myzip::DecoderNoTreeException)
+	} catch (myzip::DecoderNoTreeException const &)
 	{
 		ok = true;
 	}
@@ -291,7 +291,7 @@ TEST(correctness, decoder_no_tree_exception)
 	{
 		size_t e;
 		decoder.decode(myzip::BitSequence(), 0, e);
-	} catch (myzip::DecoderNoTreeException)
+	} catch (myzip::DecoderNoTreeException const &)
 	{
 		ok = true;
 	}

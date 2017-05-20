@@ -8,7 +8,7 @@ int main(int argc, char * argv[])
     try
     {
         args = parseArguments(argc, argv);
-    } catch (IncorrectArgumentExcepiton ex)
+    } catch (IncorrectArgumentExcepiton const & ex)
     {
 		std::cerr << "Incorrect option '" << ex.name << "'.\n";
 		std::cerr << "Try --help for more information.\n";

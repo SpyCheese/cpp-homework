@@ -78,7 +78,7 @@ int mainUnzip(std::string const & inFilename, std::string const & outFilename)
         try
         {
             decoder.decodeHuffmanTree(tree);
-        } catch (myzip::DecoderTreeException)
+        } catch (myzip::DecoderTreeException const &)
         {
             throw InvalidFileException();
         }
@@ -89,7 +89,7 @@ int mainUnzip(std::string const & inFilename, std::string const & outFilename)
             throw InvalidFileException();
 
         writeDecompressedData(decoder, inFile, outFile, outSize);
-    } catch (InvalidFileException ex)
+    } catch (InvalidFileException const & ex)
     {
         std::cerr << ex.what() << "\n";
         return 3;
