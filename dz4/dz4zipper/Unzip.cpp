@@ -2,8 +2,8 @@
 #include "Config.h"
 #include <iostream>
 #include <fstream>
-#include <myzip/Decoder.h>
-#include <myzip/Exceptions.h>
+#include <Decoder.h>
+#include <Exceptions.h>
 
 static myzip::BitSequence readHuffmanTree(std::istream & inFile)
 {

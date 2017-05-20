@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 
 project(DZ4ZIPPER)
 
+include_directories(${MYZIP_SOURCE_DIR})
+
 add_executable(dz4zipper
 			   main.cpp
 			   ArgumentsParser.cpp
@@ -18,4 +20,4 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_GLIBCXX_USE_CXX11_ABI=0 -g -fsanitize=address,undefined")
 endif()
 
-target_link_libraries(dz4zipper -lmyzip)
+target_link_libraries(dz4zipper myzip)

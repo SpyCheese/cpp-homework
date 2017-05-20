@@ -2,7 +2,7 @@
 #include "Config.h"
 #include <iostream>
 #include <fstream>
-#include <myzip/Encoder.h>
+#include <Encoder.h>
 
 static myzip::FrequencyDistribution getFrequencyDistribution(std::istream & inFile)
 {
