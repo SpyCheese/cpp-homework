@@ -36,7 +36,7 @@ struct persistent_set {
 
     std::pair<iterator, bool> insert(T x) {
         if (root == nullptr) {
-            root = ptr_t<Node>::create(x);
+            root = ptr_t<Node>::create(std::move(x));
             iterator iter(this);
             iter.v.push_back(root);
             return {iter, true};
@@ -48,13 +48,13 @@ struct persistent_set {
             iter.v.push_back(p);
             if (x < p->val) {
                 if (p->l == nullptr) {
-                    iter.v.push_back(ptr_t<Node>::create(x));
+                    iter.v.push_back(ptr_t<Node>::create(std::move(x)));
                     break;
                 }
                 p = p->l;
             } else if (p->val < x) {
                 if (p->r == nullptr) {
-                    iter.v.push_back(ptr_t<Node>::create(x));
+                    iter.v.push_back(ptr_t<Node>::create(std::move(x)));
                     break;
                 }
                 p = p->r;
@@ -101,7 +101,7 @@ private:
         const T val;
         const ptr_t<Node> l, r;
         Node(T const& nval, ptr_t<Node> nl = nullptr, ptr_t<Node> nr = nullptr) : val(nval), l(nl), r(nr) {}
-        Node(T && nval, ptr_t<Node> nl = nullptr, ptr_t<Node> nr = nullptr) : val(nval), l(nl), r(nr) {}
+        Node(T && nval, ptr_t<Node> nl = nullptr, ptr_t<Node> nr = nullptr) : val(std::move(nval)), l(nl), r(nr) {}
 
         T getMin() const {
             return l == nullptr ? val : l->getMin();

@@ -15,7 +15,7 @@ std::vector < std::vector < int > > test(std::string const& msg) {
         int r = rand() & 7;
         if (r == 0) {
             ss[rand() & 255] = ss[rand() & 255];
-        } else if (r <= 5) {
+        } else if (r <= 3) {
             ss[rand() & 255].insert(rand() & 16383);
         } else {
             int j = rand() & 255;
